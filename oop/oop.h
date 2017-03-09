@@ -3,9 +3,10 @@
 
 #include <stdbool.h>
 #include <stdarg.h>
+#include <stdio.h>
 
 
-#define class(name, type, superclass, instanceable) __attribute__ ((constructor)) static void add_##name##_class(void) { type.id = oop_add_class(#name, superclass, instanceable); } typedef struct name
+#define class(name, type, superclass, instanceable) __attribute__ ((constructor)) static void add_##name##_class(void) { type.id = oop_add_class(#name, superclass, instanceable);} typedef struct name
 #define method(class, method) class ##_method_## method
 #define add_method(object, class, method) object->method = class ##_method_## method
 
@@ -14,6 +15,7 @@
 #define construct(name) name ##_method_construct
 #define populate(name) name ##_method_populate
 
+#define instanceof(obj, class) oop_instance_of(obj, class)
 
 #define call(obj, method) (obj)->method((obj))
 #define new
@@ -21,8 +23,6 @@
 #define MAX_CLASSES 1024
 #define NO_CLASS_ID -1
 #define NO_SUPER_CLASS (class_t){.id = NO_CLASS_ID}
-
-
 
 typedef int class_id_t;
 
@@ -56,6 +56,9 @@ bool oop_instance_of(void*, class_t);
 const char* oop_get_class_name(class_t);
 class_id_t oop_id_from_name(const char*);
 bool oop_class_exists(const char*);
+class_t oop_class_from_id(class_id_t);
+class_t oop_get_super_class(class_t);
+class_t oop_get_class_from_obj(object_t*);
 
 object_t* method(object, construct)(void);
 void method(object, populate)(object_t* obj, class_t);
