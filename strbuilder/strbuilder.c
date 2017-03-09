@@ -5,12 +5,7 @@
 
 class_t strbuilder_class;
 
-__attribute__ ((constructor)) 
-static void add_strbuilder_class(void) {
-	strbuilder_class.id = new_class("strbuilder", NO_SUPER_CLASS, true);
-}
-
-void strbuilder_method_clear(strbuilder_t* this) {
+void method(strbuilder, clear)(strbuilder_t* this) {
 	for (int i = 0; i < this->nrstrings; i++) {
 		free(this->strings[i]);
 	}
@@ -19,18 +14,18 @@ void strbuilder_method_clear(strbuilder_t* this) {
 	this->nrstrings = 0;
 }
 
-void strbuilder_method_destruct(strbuilder_t* this) {
+void method(strbuilder, destruct)(strbuilder_t* this) {
 	this->clear(this);
-	free(this);
+	this->super.destruct((object_t*) this);
 }
 
-void strbuilder_method_add(strbuilder_t* this, const char* string) {
+void method(strbuilder, add)(strbuilder_t* this, const char* string) {
 	this->strings = realloc(this->strings, ++this->nrstrings * sizeof(char*));
 	this->strings[this->nrstrings - 1] = malloc(strlen(string) + 1);
 	strcpy(this->strings[this->nrstrings - 1], string);
 }
 
-size_t strbuilder_method_length(strbuilder_t* this) {
+size_t method(strbuilder, length)(strbuilder_t* this) {
 	size_t length = 0;
 	if (this->string != NULL)
 		length = strlen(this->string);
@@ -40,7 +35,7 @@ size_t strbuilder_method_length(strbuilder_t* this) {
 	return length;
 }
 
-void strbuilder_method_build(strbuilder_t* this) {
+void method(strbuilder, build)(strbuilder_t* this) {
 	size_t length = this->length(this);
 	bool empty = this->string == NULL;
 	this->string = realloc(this->string, length + 1);
@@ -53,23 +48,33 @@ void strbuilder_method_build(strbuilder_t* this) {
 	this->nrstrings = 0;
 }
 
-const char* strbuilder_method_get(strbuilder_t* this) {
+const char* method(strbuilder, get)(strbuilder_t* this) {
 	return this->string;
 }
 
-strbuilder_t* strbuilder_method_construct(const char* string) {
+strbuilder_t* method(strbuilder, construct)(const char* string) {
 	strbuilder_t* obj = malloc(sizeof(strbuilder_t));
+
+	populate(strbuilder)(obj);
+
 	obj->string = malloc(strlen(string) + 1);
 	strcpy(obj->string, string);
+
+	return obj;
+}
+
+
+void method(strbuilder, populate)(strbuilder_t* obj) {
+	populate(object)((object_t*) obj, strbuilder_class);
+	
+	obj->string = NULL;
 	obj->strings = NULL;
 	obj->nrstrings = 0;
 
-	obj->destruct = strbuilder_method_destruct;
-	obj->add = strbuilder_method_add;
-	obj->build = strbuilder_method_build;
-	obj->get = strbuilder_method_get;
-	obj->clear = strbuilder_method_clear;
-	obj->length = strbuilder_method_length;
-
-	return obj;
+	add_method(obj, strbuilder, destruct);
+	add_method(obj, strbuilder, add);
+	add_method(obj, strbuilder, build);
+	add_method(obj, strbuilder, get);
+	add_method(obj, strbuilder, clear);
+	add_method(obj, strbuilder, length);
 }

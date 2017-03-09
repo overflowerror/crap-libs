@@ -8,19 +8,22 @@
 
 extern class_t strbuilder_class;
 
-typedef struct strbuilder {
-	meta_object_t meta;
+class(strbuilder, strbuilder_class, object_class, true) {
+	extends(object_t);
+
+	char* string;
+	char** strings;
+	int nrstrings;
+
 	void (*destruct)(struct strbuilder*);
 	void (*add)(struct strbuilder*, const char*);
 	void (*build)(struct strbuilder*);
 	const char* (*get)(struct strbuilder*);
 	void (*clear)(struct strbuilder*);
 	size_t (*length)(struct strbuilder*);
-	char* string;
-	char** strings;
-	int nrstrings;
 } strbuilder_t;
 
-strbuilder_t* strbuilder_method_construct(const char*);
+strbuilder_t* method(strbuilder, construct)(const char*);
+void method(strbuilder, populate)(strbuilder_t*);
 
 #endif
