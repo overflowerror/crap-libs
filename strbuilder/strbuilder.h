@@ -15,12 +15,12 @@ class(strbuilder, strbuilder_class, object_class, true) {
 	char** strings;
 	int nrstrings;
 
-	void (*destruct)(struct strbuilder*);
-	void (*add)(struct strbuilder*, const char*);
-	void (*build)(struct strbuilder*);
-	const char* (*get)(struct strbuilder*);
-	void (*clear)(struct strbuilder*);
-	size_t (*length)(struct strbuilder*);
+	void (*destruct)(defclass strbuilder*);
+	void (*add)(defclass strbuilder*, const char*);
+	void (*build)(defclass strbuilder*);
+	const char* (*get)(defclass strbuilder*);
+	void (*clear)(defclass strbuilder*);
+	size_t (*length)(defclass strbuilder*);
 } strbuilder_t;
 
 strbuilder_t* method(strbuilder, construct)(const char*);

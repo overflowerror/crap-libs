@@ -12,8 +12,8 @@ class(test, test_class, object_class, true) {
 
 	const char* string;
 
-	void (*print)(struct test*);
-	void (*destruct)(struct test*);
+	void (*print)(defclass test*);
+	void (*destruct)(defclass test*);
 } test_t;
 
 void method(test, print)(test_t* this) {

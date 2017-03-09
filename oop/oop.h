@@ -19,6 +19,7 @@
 
 #define call(obj, method) (obj)->method((obj))
 #define new
+#define defclass	struct
 
 #define MAX_CLASSES 1024
 #define NO_CLASS_ID -1
@@ -47,7 +48,7 @@ extern class_t object_class;
 
 class(object, object_class, NO_SUPER_CLASS, true) {
 	meta_object_t meta_obj;
-	void (*destruct)(struct object*);
+	void (*destruct)(defclass object*);
 } object_t;
 
 
