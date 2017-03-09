@@ -6,7 +6,7 @@
 
 CC = gcc
 DEFS = -D_XOPEN_SOURCE=500 -D_BSD_SOURCE
-CFLAGS = -Wall -Wextra -g -std=c99 -pedantic -DENDEBUG $(DEFS) -fPIC
+CFLAGS = -Wall -Wextra -g -std=c99 -DENDEBUG $(DEFS) -fPIC
 LDFLAGS = $(DEFS)
 LIBFLAGS = -shared $(DEFS)
 
