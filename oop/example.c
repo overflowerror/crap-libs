@@ -23,8 +23,8 @@ void method(test, destruct)(test_t* this) {
 	this->super.destruct((object_t*) this);
 }
 
-void method(test, populate)(test_t* obj) {
-	populate(object)((object_t*) obj, test_class);
+void method(test, populate)(test_t* obj, class_t c) {
+	populate(object)((object_t*) obj);
 
 	add_method(obj, test, destruct);
 	add_method(obj, test, print);
@@ -32,7 +32,7 @@ void method(test, populate)(test_t* obj) {
 
 test_t* method(test, construct)(const char* string) {
 	test_t* obj = malloc(sizeof(test_t));
-	populate(test)(obj);
+	populate(test)(obj, test_class);
 
 	obj->string = string;
 

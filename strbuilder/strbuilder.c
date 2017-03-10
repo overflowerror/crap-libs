@@ -55,7 +55,7 @@ const char* method(strbuilder, get)(strbuilder_t* this) {
 strbuilder_t* method(strbuilder, construct)(const char* string) {
 	strbuilder_t* obj = malloc(sizeof(strbuilder_t));
 
-	populate(strbuilder)(obj);
+	populate(strbuilder)(obj, strbuilder_class);
 
 	obj->string = malloc(strlen(string) + 1);
 	strcpy(obj->string, string);
@@ -64,8 +64,8 @@ strbuilder_t* method(strbuilder, construct)(const char* string) {
 }
 
 
-void method(strbuilder, populate)(strbuilder_t* obj) {
-	populate(object)((object_t*) obj, strbuilder_class);
+void method(strbuilder, populate)(strbuilder_t* obj, class_t c) {
+	populate(object)((object_t*) obj, c);
 	
 	obj->string = NULL;
 	obj->strings = NULL;

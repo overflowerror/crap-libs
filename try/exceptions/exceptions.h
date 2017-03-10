@@ -13,10 +13,10 @@ class(exception, exception_class, object_class, true) {
 	void (*destruct)(defclass exception*);
 } exception_t;
 
-void method(exception, populate)(exception_t*);
+void method(exception, populate)(exception_t*, class_t);
 exception_t* method(exception, construct)(const char*);
 
-#define exception construct(exception)
+/*#define exception construct(exception)
 class_t exception_class;
 class(exception, exception_class, object_class, true) {
 	extends(object_t);	
@@ -28,5 +28,6 @@ class(exception, exception_class, object_class, true) {
 
 void method(exception, populate)(exception_t*);
 exception_t* method(exception, construct)(const char*);
+*/
 
 #endif
