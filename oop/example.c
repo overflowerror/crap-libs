@@ -5,9 +5,7 @@
 
 #define test construct(test)
 
-class_t test_class;
-
-class(test, test_class, object_class, true) {
+class(test, object_class, true) {
 	extends(object_t);	
 
 	const char* string;

@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 
-#define class(name, type, superclass, instanceable) __attribute__ ((constructor)) static void add_##name##_class(void) { type.id = oop_add_class(#name, superclass, instanceable);} typedef struct name
+#define class(name, superclass, instanceable) class_t name##_class; __attribute__ ((constructor)) static void add_##name##_class(void) { name##_class.id = oop_add_class(#name, superclass, instanceable);} typedef struct name
 #define method(class, method) class ##_method_## method
 #define add_method(object, class, method) object->method = class ##_method_## method
 
@@ -44,9 +44,8 @@ typedef struct meta_object {
 class_id_t oop_add_class(const char*, class_t, bool);
 
 #define object construct(object)
-extern class_t object_class;
 
-class(object, object_class, NO_SUPER_CLASS, true) {
+extern class(object, NO_SUPER_CLASS, true) {
 	meta_object_t meta_obj;
 	void (*destruct)(defclass object*);
 } object_t;

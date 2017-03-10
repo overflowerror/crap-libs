@@ -5,10 +5,7 @@
 #include "../oop/oop.h"
 
 #define strbuilder construct(strbuilder)
-
-extern class_t strbuilder_class;
-
-class(strbuilder, strbuilder_class, object_class, true) {
+extern class(strbuilder, object_class, true) {
 	extends(object_t);
 
 	char* string;

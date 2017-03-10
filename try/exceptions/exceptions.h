@@ -4,8 +4,7 @@
 #include "../../oop/oop.h"
 
 #define exception construct(exception)
-class_t exception_class;
-class(exception, exception_class, object_class, true) {
+class(exception, object_class, true) {
 	extends(object_t);	
 
 	const char* msg;

@@ -70,6 +70,7 @@ class_t oop_get_class_from_obj(object_t* obj) {
 }
 
 
+// defined by class macro in h-file
 class_t object_class;
 
 void method(object, destruct)(object_t* obj) {
