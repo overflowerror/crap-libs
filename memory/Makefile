@@ -33,6 +33,6 @@ example.o: example.c memory.h
 	cd ../oop/ && $(MAKE) liboop.so
 
 clean:
-	rm -f *.o example memory.so
+	rm -f *.o example libmemory.so
 	cd ../try/ && $(MAKE) clean
 	cd ../oop/ && $(MAKE) clean
