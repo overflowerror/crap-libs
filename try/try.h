@@ -24,7 +24,7 @@ typedef int try_t;
 #define succeeded true
 
 #define subtry() try_t _try_id = try_pop();
-#define trycall try_push(_try_id);
+#define s_(f) try_push(_try_id); f; if(_try_has_catch(_try_id)) return;
 
 #define tpush() try_push(_try_id)
 #define cthrow(e) _try_id = try_pop(); throw(e);
