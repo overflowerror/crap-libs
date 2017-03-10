@@ -61,6 +61,8 @@ try_t try_pop(void) {
 }
 
 void try_push(try_t id) {
+	if (id == NO_TRY_BODY)
+		return;
 	stack[++stack_position] = id;
 }
 
@@ -93,9 +95,20 @@ void print_backtrace(FILE* file) {
 void try_throw(try_t id, void* exception) {
 	if (id == NO_TRY_BODY) {
 		exception_t* e = exception;
-		fprintf(stderr, "\nUncaught exception '%s_t' (\"%s\")\n", 
-			oop_get_class_name(oop_get_class_from_obj((void*) e)),
-			e->msg);
+
+		#ifdef PTHREAD_SCOPE_SYSTEM
+		// we are in a pthread environment
+			pthread_id_np_t   tid;
+			tid = pthread_getthreadid_np();	
+			fprintf(stderr, "\nUncaught error %s_t in thread %i\n: %s\n", 
+				oop_get_class_name(oop_get_class_from_obj((void*) e)),
+				tid, e->msg);
+		#else
+			fprintf(stderr, "\nUncaught error %s_t: %s\n", 
+				oop_get_class_name(oop_get_class_from_obj((void*) e)),
+				e->msg);
+		#endif
+
 		print_backtrace(stderr);
 	} else {
 		trys[id].exception = exception;
