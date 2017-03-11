@@ -8,27 +8,45 @@ class_id_t class_ids = 0;
 
 meta_class_t classes[MAX_CLASSES];
 
-class_id_t oop_add_class(const char* name, class_t super, bool instanceable) {
+class_id_t oop_add_class(const char* name, bool interface, class_t super, iflist_t iflist, bool instanceable) {
 	if (oop_class_exists(name))
 		return oop_id_from_name(name);
 
 	classes[class_ids] = (meta_class_t) {
 		.name = name,
+		.interface = interface,
 		.super = super.id,
+		.nrinterfaces = iflist.nr,
 		.instanceable = instanceable
 	};
+
+	for(int i = 0; i < iflist.nr; i++) {
+		classes[class_ids].interfaces[i] = iflist.interfaces[i].id;
+	}
+
 	return class_ids++;
 }
 
 bool oop_instance_of_id(void* object, class_id_t id) {
 	class_id_t cid = ((Object_t*) object)->meta_obj.type.id;
 	meta_class_t c = classes[cid];
+
 	if (cid == id)
 		return true;
+	for (int i = 0; i < c.nrinterfaces; i++) {
+		if (c.interfaces[i] == id)
+			return true;
+	}
+
 	// iterate through superclasses of object
-	for (; c.super != NO_CLASS_ID; c = classes[c.super]) {
+	while (c.super != NO_CLASS_ID) {
 		if (c.super == id)
 			return true;
+		c = classes[c.super];
+		for (int i = 0; i < c.nrinterfaces; i++) {
+			if (c.interfaces[i] == id)
+				return true;
+		}
 	}
 	return false;
 }
@@ -72,6 +90,10 @@ class_t oop_get_class_from_obj(Object_t* obj) {
 
 // defined by class macro in h-file
 class_t Object_class;
+
+// defined by interface macro in h-file
+class_t Cloneable_class;
+
 
 void method(Object, destruct)(Object_t* obj) {
 	free(obj);

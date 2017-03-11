@@ -4,7 +4,7 @@
 #include "../../oop/oop.h"
 
 #define Exception construct(Exception)
-class(Exception, Object_class, true) {
+class(Exception, Object_class, NO_INTERFACES, true) {
 	extends(Object_t);	
 
 	const char* msg;
