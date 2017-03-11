@@ -2,19 +2,19 @@
 
 #include <stdlib.h>
 
-void method(exception, destruct)(exception_t* this) {
-	this->super.destruct((object_t*) this);
+void method(Exception, destruct)(Exception_t* this) {
+	this->super.destruct((Object_t*) this);
 }
 
-void method(exception, populate)(exception_t* obj, class_t c) {
-	populate(object)((object_t*) obj, c);
+void method(Exception, populate)(Exception_t* obj, class_t c) {
+	populate(Object)((Object_t*) obj, c);
 
-	add_method(obj, exception, destruct);
+	add_method(obj, Exception, destruct);
 }
 
-exception_t* method(exception, construct)(const char* msg) {
-	exception_t* obj = malloc(sizeof(exception_t));
-	populate(exception)(obj, exception_class);
+Exception_t* method(Exception, construct)(const char* msg) {
+	Exception_t* obj = malloc(sizeof(Exception_t));
+	populate(Exception)(obj, Exception_class);
 
 	obj->msg = msg;
 

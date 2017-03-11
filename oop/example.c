@@ -3,34 +3,34 @@
 
 #include "oop.h"
 
-#define test construct(test)
+#define Test construct(Test)
 
-class(test, object_class, true) {
-	extends(object_t);	
+class(Test, Object_class, true) {
+	extends(Object_t);	
 
 	const char* string;
 
-	void (*print)(defclass test*);
-	void (*destruct)(defclass test*);
-} test_t;
+	void (*print)(defclass Test*);
+	void (*destruct)(defclass Test*);
+} Test_t;
 
-void method(test, print)(test_t* this) {
+void method(Test, print)(Test_t* this) {
 	printf("%s\n", this->string);
 }
-void method(test, destruct)(test_t* this) {
-	this->super.destruct((object_t*) this);
+void method(Test, destruct)(Test_t* this) {
+	this->super.destruct((Object_t*) this);
 }
 
-void method(test, populate)(test_t* obj, class_t c) {
-	populate(object)((object_t*) obj);
+void method(Test, populate)(Test_t* obj, class_t c) {
+	populate(Object)((Object_t*) obj, c);
 
-	add_method(obj, test, destruct);
-	add_method(obj, test, print);
+	add_method(obj, Test, destruct);
+	add_method(obj, Test, print);
 }
 
-test_t* method(test, construct)(const char* string) {
-	test_t* obj = malloc(sizeof(test_t));
-	populate(test)(obj, test_class);
+Test_t* method(Test, construct)(const char* string) {
+	Test_t* obj = malloc(sizeof(Test_t));
+	populate(Test)(obj, Test_class);
 
 	obj->string = string;
 
@@ -38,13 +38,13 @@ test_t* method(test, construct)(const char* string) {
 }
 
 int main(void) {
-	test_t* obj = new test("Hallo Welt");
+	Test_t* obj = new Test("Hallo Welt");
 
-	class_t c = oop_get_class_from_obj((object_t*) obj);
+	class_t c = oop_get_class_from_obj((Object_t*) obj);
 	printf("class: %s\n", oop_get_class_name(c));
 	printf("superclass: %s\n", oop_get_class_name(oop_get_super_class(c)));
-	printf("instanceof test: %i\n", instanceof(obj, test_class));
-	printf("instanceof object: %i\n", instanceof(obj, object_class));
+	printf("instanceof test: %i\n", instanceof(obj, Test_class));
+	printf("instanceof object: %i\n", instanceof(obj, Object_class));
 
 	obj->print(obj);
 	obj->destruct(obj);

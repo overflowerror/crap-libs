@@ -9,6 +9,7 @@
 #define class(name, superclass, instanceable) class_t name##_class; __attribute__ ((constructor)) static void add_##name##_class(void) { name##_class.id = oop_add_class(#name, superclass, instanceable);} typedef struct name
 #define method(class, method) class ##_method_## method
 #define add_method(object, class, method) object->method = class ##_method_## method
+#define implements(i) i##_interface
 
 #define extends(type) type super
 
@@ -43,12 +44,12 @@ typedef struct meta_object {
 
 class_id_t oop_add_class(const char*, class_t, bool);
 
-#define object construct(object)
+#define Object construct(Object)
 
-extern class(object, NO_SUPER_CLASS, true) {
+extern class(Object, NO_SUPER_CLASS, true) {
 	meta_object_t meta_obj;
-	void (*destruct)(defclass object*);
-} object_t;
+	void (*destruct)(defclass Object*);
+} Object_t;
 
 
 bool oop_instance_of_id(void*, class_id_t);
@@ -58,9 +59,9 @@ class_id_t oop_id_from_name(const char*);
 bool oop_class_exists(const char*);
 class_t oop_class_from_id(class_id_t);
 class_t oop_get_super_class(class_t);
-class_t oop_get_class_from_obj(object_t*);
+class_t oop_get_class_from_obj(Object_t*);
 
-object_t* method(object, construct)(void);
-void method(object, populate)(object_t* obj, class_t);
+Object_t* method(Object, construct)(void);
+void method(Object, populate)(Object_t* obj, class_t);
 
 #endif

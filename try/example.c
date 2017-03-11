@@ -5,15 +5,15 @@
 
 #include <stdio.h>
 
-void function(void) { throws(exception_class)
+void function(void) { throws(Exception_class)
 
-	throw(new exception("This is an uncaught exception."));
+	throw(new Exception("This is an uncaught exception."));
 }
 
 int main(void) {
 	try {
-		throw(new exception("This is a caught exception."));
-	} catch(exception_class, exception_t* e) {
+		throw(new Exception("This is a caught exception."));
+	} catch(Exception_class, Exception_t* e) {
 		printf("Caught: %s\n", e->msg);
 		e->destruct(e);
 	} endtry;

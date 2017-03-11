@@ -94,7 +94,7 @@ void print_backtrace(FILE* file) {
 
 void try_throw(try_t id, void* exception) {
 	if (id == NO_TRY_BODY) {
-		exception_t* e = exception;
+		Exception_t* e = exception;
 
 		#ifdef PTHREAD_SCOPE_SYSTEM
 		// we are in a pthread environment

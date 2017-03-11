@@ -21,7 +21,7 @@ class_id_t oop_add_class(const char* name, class_t super, bool instanceable) {
 }
 
 bool oop_instance_of_id(void* object, class_id_t id) {
-	class_id_t cid = ((object_t*) object)->meta_obj.type.id;
+	class_id_t cid = ((Object_t*) object)->meta_obj.type.id;
 	meta_class_t c = classes[cid];
 	if (cid == id)
 		return true;
@@ -65,25 +65,25 @@ class_t oop_get_super_class(class_t type) {
 	return oop_class_from_id(classes[type.id].super);
 }
 
-class_t oop_get_class_from_obj(object_t* obj) {
-	return oop_class_from_id(((object_t*) obj)->meta_obj.type.id);
+class_t oop_get_class_from_obj(Object_t* obj) {
+	return oop_class_from_id(((Object_t*) obj)->meta_obj.type.id);
 }
 
 
 // defined by class macro in h-file
-class_t object_class;
+class_t Object_class;
 
-void method(object, destruct)(object_t* obj) {
+void method(Object, destruct)(Object_t* obj) {
 	free(obj);
 }
 
-object_t* method(object, construct)() {
-	object_t* obj = malloc(sizeof(object_t));
-	populate(object)(obj, object_class);
+Object_t* method(Object, construct)() {
+	Object_t* obj = malloc(sizeof(Object_t));
+	populate(Object)(obj, Object_class);
 	return obj;
 }
 
-void method(object, populate)(object_t* obj, class_t type) {
+void method(Object, populate)(Object_t* obj, class_t type) {
 	obj->meta_obj.type = type;
-	add_method(obj, object, destruct);
+	add_method(obj, Object, destruct);
 }

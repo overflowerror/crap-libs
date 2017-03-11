@@ -5,7 +5,7 @@
 #include "strbuilder.h"
 
 int main(void) {
-	strbuilder_t* builder = new strbuilder("Hallo");
+	Strbuilder_t* builder = new Strbuilder("Hallo");
 
 	builder->add(builder, " Welt");
 	builder->add(builder, "!");

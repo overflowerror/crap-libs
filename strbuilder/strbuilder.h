@@ -4,23 +4,23 @@
 #include <stdlib.h>
 #include "../oop/oop.h"
 
-#define strbuilder construct(strbuilder)
-extern class(strbuilder, object_class, true) {
-	extends(object_t);
+#define Strbuilder construct(Strbuilder)
+extern class(Strbuilder, Object_class, true) {
+	extends(Object_t);
 
 	char* string;
 	char** strings;
 	int nrstrings;
 
-	void (*destruct)(defclass strbuilder*);
-	void (*add)(defclass strbuilder*, const char*);
-	void (*build)(defclass strbuilder*);
-	const char* (*get)(defclass strbuilder*);
-	void (*clear)(defclass strbuilder*);
-	size_t (*length)(defclass strbuilder*);
-} strbuilder_t;
+	void (*destruct)(defclass Strbuilder*);
+	void (*add)(defclass Strbuilder*, const char*);
+	void (*build)(defclass Strbuilder*);
+	const char* (*get)(defclass Strbuilder*);
+	void (*clear)(defclass Strbuilder*);
+	size_t (*length)(defclass Strbuilder*);
+} Strbuilder_t;
 
-strbuilder_t* method(strbuilder, construct)(const char*);
-void method(strbuilder, populate)(strbuilder_t*);
+Strbuilder_t* method(Strbuilder, construct)(const char*);
+void method(Strbuilder, populate)(Strbuilder_t*, class_t);
 
 #endif
