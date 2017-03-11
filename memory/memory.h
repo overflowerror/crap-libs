@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define allocate_object(type) allocate(sizeof(type));
+
 #define clone_string(s) clone((void*) s, strlen(s) + 1)
 #define clone_obj(obj, class) clone((void*) obj, sizeof(class))
 
