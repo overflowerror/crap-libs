@@ -1,7 +1,7 @@
-#ifndef EXCEPTIONS_H
-#define EXCEPTIONS_H
+#ifndef STDEX_H
+#define STDEX_H
 
-#include "../../oop/oop.h"
+#include "../oop.h"
 
 #define Exception construct(Exception)
 extern class(Exception, Object_class, NO_INTERFACES, true) {

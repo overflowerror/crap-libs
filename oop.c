@@ -1,4 +1,7 @@
 #include "oop.h"
+#include "memory.h"
+#include "try.h"
+#include "exceptions/stdex.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -99,8 +102,8 @@ void method(Object, destruct)(Object_t* obj) {
 	free(obj);
 }
 
-Object_t* method(Object, construct)() {
-	Object_t* obj = malloc(sizeof(Object_t));
+Object_t* method(Object, construct)() { throws(OutOfMemoryException_t);
+	sr_(Object_t* obj = allocate_object(Object_t), NULL);
 	populate(Object)(obj, Object_class);
 	return obj;
 }

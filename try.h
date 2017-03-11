@@ -3,8 +3,8 @@
 
 #include <stdbool.h>
 
-#include "../oop/oop.h"
-#include "../misc/unused.h"
+#include "oop.h"
+#include "misc.h"
 
 typedef int try_t;
 
@@ -17,14 +17,16 @@ typedef int try_t;
 
 #define endtry while(false); } if (_try_catch) { UNUSED(_try_body); UNUSED(_try_data); }};
 #define throw(e) { try_throw(_try_id, (void*) e); return; }
+#define throwr(e, r) { try_throw(_try_id, (void*) e); return r; }
 
 #define until(condition) ; do { try_reset(_try_id); _try_f(); } while(try_has_catch(_try_id) == condition); void* _try_result = try_catch(_try_id); try_remove(_try_id); if(true) { do
 #define get_thrown() (_try_result)
 #define failed false
 #define succeeded true
 
-#define subtry() try_t _try_id = try_pop();
-#define s_(f) try_push(_try_id); f; if(_try_has_catch(_try_id)) return;
+#define subtry() try_t _try_id = try_pop(); UNUSED(_try_id);
+#define s_(f) try_push(_try_id); f; if(try_has_catch(_try_id)) return;
+#define sr_(f, r) try_push(_try_id); f; if(try_has_catch(_try_id)) return r;
 
 #define tpush() try_push(_try_id)
 #define cthrow(e) _try_id = try_pop(); throw(e);
@@ -39,5 +41,7 @@ void try_throw(try_t, void*);
 try_t try_pop(void);
 void try_push(try_t);
 void try_reset(try_t);
+
+void _print_backtrace(FILE*, int);
 
 #endif

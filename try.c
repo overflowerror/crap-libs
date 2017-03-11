@@ -1,5 +1,5 @@
 #include "try.h"
-#include "exceptions/exceptions.h"
+#include "exceptions/stdex.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -69,7 +69,7 @@ void try_push(try_t id) {
 #define BACKTRACE_BUFFER_SIZE 16
 #define EXIT_BACKTRACE_FAILED 3
 #define EXIT_UNCAUGHT 4
-void print_backtrace(FILE* file) {
+void _print_backtrace(FILE* file, int ignore) {
 	void* buffer[BACKTRACE_BUFFER_SIZE];
 	char** strings;
 	int entries = backtrace(buffer, BACKTRACE_BUFFER_SIZE);
@@ -83,7 +83,7 @@ void print_backtrace(FILE* file) {
 	int tmp = (entries < BACKTRACE_BUFFER_SIZE) ? entries : entries - 1;
 
 	// from 2, because of print_backtrace and try_throw
-	for (int i = 2; i < tmp; i++) {
+	for (int i = ignore; i < tmp; i++) {
 		fprintf(file, "  at %s\n", strings[i]);
 	}
 	if (tmp < entries) {
@@ -109,7 +109,7 @@ void try_throw(try_t id, void* exception) {
 				e->msg);
 		#endif
 
-		print_backtrace(stderr);
+		_print_backtrace(stderr, 2);
 	} else {
 		trys[id].exception = exception;
 	}

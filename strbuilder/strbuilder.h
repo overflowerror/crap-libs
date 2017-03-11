@@ -2,7 +2,7 @@
 #define STRBUILDER_H
 
 #include <stdlib.h>
-#include "../oop/oop.h"
+#include "../oop.h"
 
 #define Strbuilder construct(Strbuilder)
 extern class(Strbuilder, Object_class, NO_INTERFACES, true) {

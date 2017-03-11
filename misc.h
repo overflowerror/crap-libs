@@ -1,5 +1,5 @@
-#ifndef UNUSED_H
-#define UNUSED_H
+#ifndef MISC_H
+#define MISC_H
 
 #define UNUSED(v) (v = v);
 

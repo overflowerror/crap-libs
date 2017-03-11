@@ -1,6 +1,7 @@
 #include "strbuilder.h"
+#include "../memory.h"
+
 #include <string.h>
-#include <stdlib.h>
 #include <stdbool.h>
 
 class_t Strbuilder_class;
@@ -20,8 +21,10 @@ void method(Strbuilder, destruct)(Strbuilder_t* this) {
 }
 
 void method(Strbuilder, add)(Strbuilder_t* this, const char* string) {
-	this->strings = realloc(this->strings, ++this->nrstrings * sizeof(char*));
-	this->strings[this->nrstrings - 1] = malloc(strlen(string) + 1);
+	throws(OutOfMemoryException_t);
+
+	s_(this->strings = reallocate(this->strings, ++this->nrstrings * sizeof(char*)));
+	s_(this->strings[this->nrstrings - 1] = allocate(strlen(string) + 1));
 	strcpy(this->strings[this->nrstrings - 1], string);
 }
 
@@ -36,9 +39,11 @@ size_t method(Strbuilder, length)(Strbuilder_t* this) {
 }
 
 void method(Strbuilder, build)(Strbuilder_t* this) {
+	throws(OutOfMemoryException_t);
+
 	size_t length = this->length(this);
 	bool empty = this->string == NULL;
-	this->string = realloc(this->string, length + 1);
+	s_(this->string = reallocate(this->string, length + 1));
 	if (empty)
 		this->string[0] = '\0';
 	for (int i = 0; i < this->nrstrings; i++) {
@@ -52,12 +57,14 @@ const char* method(Strbuilder, get)(Strbuilder_t* this) {
 	return this->string;
 }
 
-Strbuilder_t* method(Strbuilder, construct)(const char* string) {
-	Strbuilder_t* obj = malloc(sizeof(Strbuilder_t));
+Strbuilder_t* method(Strbuilder, construct)(const char* string) { 
+	throws(OutOfMemoryException_t);
+
+	sr_(Strbuilder_t* obj = allocate_object(Strbuilder_t), NULL);
 
 	populate(Strbuilder)(obj, Strbuilder_class);
 
-	obj->string = malloc(strlen(string) + 1);
+	sr_(obj->string = allocate(strlen(string) + 1), NULL);
 	strcpy(obj->string, string);
 
 	return obj;
