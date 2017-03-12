@@ -78,6 +78,10 @@ bool oop_class_exists(const char* class_name) {
 	return oop_id_from_name(class_name) != NO_CLASS_ID;
 }
 
+bool oop_is_instanceable(class_t c) {
+	return classes[c.id].instanceable;
+}
+
 class_t oop_class_from_id(class_id_t id) {
 	return (class_t) {.id = id};
 }
@@ -90,12 +94,20 @@ class_t oop_get_class_from_obj(Object_t* obj) {
 	return oop_class_from_id(((Object_t*) obj)->meta_obj.type.id);
 }
 
+void oop_check_interface(class_t c, Object_t* obj) {
+	throws(IllegalArgumentException_t);
+
+	if (!instanceof(obj, c))
+		throw(new IllegalArgumentException("Object is not instance of interface."));
+}
+
 
 // defined by class macro in h-file
 class_t Object_class;
 
 // defined by interface macro in h-file
 class_t Cloneable_class;
+class_t Compareable_class;
 
 
 void method(Object, destruct)(Object_t* obj) {
@@ -103,7 +115,7 @@ void method(Object, destruct)(Object_t* obj) {
 }
 
 Object_t* method(Object, construct)() { throws(OutOfMemoryException_t);
-	sr_(Object_t* obj = allocate_object(Object_t), NULL);
+	sr_(Object_t* obj = allocate_object(Object), NULL);
 	populate(Object)(obj, Object_class);
 	return obj;
 }

@@ -23,7 +23,10 @@ int main(void) {
 	}
 
 	printf("\nremoving index %lu\n", list->length(list));
-	list->remove(list, list->length(list));
+	//list->remove(list, list->length(list));
+	//List_t* list2 = new List();
+
+	Object_t* obj = new Object();
 
 	return 0;
 }

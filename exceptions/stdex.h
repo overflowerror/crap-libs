@@ -45,4 +45,24 @@ extern class(IndexOutOfBoundsException, Exception_class, NO_INTERFACES, true) {
 void method(IndexOutOfBoundsException, populate)(IndexOutOfBoundsException_t*, class_t);
 IndexOutOfBoundsException_t* method(IndexOutOfBoundsException, construct)(size_t, size_t);
 
+#define IllegalArgumentException construct(IllegalArgumentException)
+extern class(IllegalArgumentException, Exception_class, NO_INTERFACES, true) {
+	extends(Exception_t);
+
+	void (*destruct)(defclass IllegalArgumentException*);
+} IllegalArgumentException_t;
+
+void method(IllegalArgumentException, populate)(IllegalArgumentException_t*, class_t);
+IllegalArgumentException_t* method(IllegalArgumentException, construct)(const char*);
+
+#define ClassNotInstanceableException construct(ClassNotInstanceableException)
+extern class(ClassNotInstanceableException, Exception_class, NO_INTERFACES, true) {
+	extends(Exception_t);
+
+	void (*destruct)(defclass ClassNotInstanceableException*);
+} ClassNotInstanceableException_t;
+
+void method(ClassNotInstanceableException, populate)(ClassNotInstanceableException_t*, class_t);
+ClassNotInstanceableException_t* method(ClassNotInstanceableException, construct)(const char*);
+
 #endif

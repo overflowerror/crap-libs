@@ -16,7 +16,7 @@ class_t ArrayList_class;
 ArrayList_t* method(ArrayList, construct)(void) {
 	throws(OutOfMemoryException_t);
 
-	sr_(ArrayList_t* list = allocate_object(ArrayList_t), NULL);
+	sr_(ArrayList_t* list = allocate_object(ArrayList), NULL);
 	populate(ArrayList)(list, ArrayList_class);
 
 	return list;

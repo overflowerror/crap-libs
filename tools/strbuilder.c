@@ -91,7 +91,7 @@ const char* method(Strbuilder, get)(Strbuilder_t* this) {
 Strbuilder_t* method(Strbuilder, construct)(const char* string) { 
 	throws(OutOfMemoryException_t);
 
-	sr_(Strbuilder_t* obj = allocate_object(Strbuilder_t), NULL);
+	sr_(Strbuilder_t* obj = allocate_object(Strbuilder), NULL);
 
 	populate(Strbuilder)(obj, Strbuilder_class);
 

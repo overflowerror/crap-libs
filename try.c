@@ -109,6 +109,8 @@ void try_throw(try_t id, void* exception) {
 				e->msg);
 		#endif
 
+		e->destruct(); // destruct of exception (not sub classes), because we don't know what this is
+
 		_print_backtrace(stderr, 2);
 	} else {
 		trys[id].exception = exception;

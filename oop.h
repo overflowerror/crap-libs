@@ -59,13 +59,18 @@ typedef struct meta_object {
 class_id_t oop_add_class(const char*, bool, class_t, iflist_t, bool);
 
 #define Object construct(Object)
-extern class(Object, NO_SUPER_CLASS, NO_INTERFACES, true) {
+extern class(Object, NO_SUPER_CLASS, NO_INTERFACES, false) {
 	meta_object_t meta_obj;
 	void (*destruct)(defclass Object*);
 } Object_t;
 
 extern interface(Cloneable)
 #define Cloneable_interface void*(*clone)(void*)
+#define Cloneable(...) NULL; _Pragma("GCC error \"Cannot make instance of interface Cloneable.\"");
+
+extern interface(Compareable)
+#define Compareable_interface int(*compare)(void*)
+#define Compareable(...) NULL; _Pragma("GCC error \"Cannot make instance of interface Compareable.\"");
 
 bool oop_instance_of_id(void*, class_id_t);
 bool oop_instance_of(void*, class_t);
@@ -74,7 +79,9 @@ class_id_t oop_id_from_name(const char*);
 bool oop_class_exists(const char*);
 class_t oop_class_from_id(class_id_t);
 class_t oop_get_super_class(class_t);
+bool oop_is_instanceable(class_t);
 class_t oop_get_class_from_obj(Object_t*);
+void oop_check_interface(class_t, Object_t*);
 
 Object_t* method(Object, construct)(void);
 void method(Object, populate)(Object_t* obj, class_t);
