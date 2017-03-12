@@ -35,4 +35,14 @@ extern class(OutOfMemoryException, Exception_class, NO_INTERFACES, true) {
 void method(OutOfMemoryException, populate)(OutOfMemoryException_t*, class_t);
 OutOfMemoryException_t* method(OutOfMemoryException, construct)(void);
 
+#define IndexOutOfBoundsException construct(IndexOutOfBoundsException)
+extern class(IndexOutOfBoundsException, Exception_class, NO_INTERFACES, true) {
+	extends(Exception_t);
+
+	void (*destruct)(defclass IndexOutOfBoundsException*);
+} IndexOutOfBoundsException_t;
+
+void method(IndexOutOfBoundsException, populate)(IndexOutOfBoundsException_t*, class_t);
+IndexOutOfBoundsException_t* method(IndexOutOfBoundsException, construct)(size_t, size_t);
+
 #endif

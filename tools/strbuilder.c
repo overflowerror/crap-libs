@@ -1,5 +1,7 @@
 #include "strbuilder.h"
 #include "../memory.h"
+#include "../try.h"
+#include "../exceptions/stdex.h"
 
 #include <string.h>
 #include <stdbool.h>
@@ -7,6 +9,11 @@
 class_t Strbuilder_class;
 
 void method(Strbuilder, clear)(Strbuilder_t* this) {
+	throws(NullPointerException_t);
+
+	if (this == NULL)
+		throw(new NullPointerException());
+
 	for (int i = 0; i < this->nrstrings; i++) {
 		free(this->strings[i]);
 	}
@@ -16,12 +23,20 @@ void method(Strbuilder, clear)(Strbuilder_t* this) {
 }
 
 void method(Strbuilder, destruct)(Strbuilder_t* this) {
+	throws(NullPointerException_t);
+
+	if (this == NULL)
+		throw(new NullPointerException());
+
 	this->clear(this);
 	this->super.destruct((Object_t*) this);
 }
 
 void method(Strbuilder, add)(Strbuilder_t* this, const char* string) {
-	throws(OutOfMemoryException_t);
+	throws(OutOfMemoryException_t, NullPointerException_t);
+
+	if (this == NULL || string == NULL)
+		throw(new NullPointerException());
 
 	s_(this->strings = reallocate(this->strings, ++this->nrstrings * sizeof(char*)));
 	s_(this->strings[this->nrstrings - 1] = allocate(strlen(string) + 1));
@@ -29,6 +44,11 @@ void method(Strbuilder, add)(Strbuilder_t* this, const char* string) {
 }
 
 size_t method(Strbuilder, length)(Strbuilder_t* this) {
+	throws(NullPointerException_t);
+
+	if (this == NULL)
+		throwr(new NullPointerException(), 0);
+
 	size_t length = 0;
 	if (this->string != NULL)
 		length = strlen(this->string);
@@ -39,7 +59,10 @@ size_t method(Strbuilder, length)(Strbuilder_t* this) {
 }
 
 void method(Strbuilder, build)(Strbuilder_t* this) {
-	throws(OutOfMemoryException_t);
+	throws(OutOfMemoryException_t, NullPointerException_t);
+
+	if (this == NULL)
+		throw(new NullPointerException());
 
 	size_t length = this->length(this);
 	bool empty = this->string == NULL;
@@ -54,6 +77,14 @@ void method(Strbuilder, build)(Strbuilder_t* this) {
 }
 
 const char* method(Strbuilder, get)(Strbuilder_t* this) {
+	throws(NullPointerException_t);
+
+	if (this == NULL)
+		throwr(new NullPointerException(), NULL);
+
+	if (this->string == NULL)
+		return "";
+	
 	return this->string;
 }
 
@@ -64,8 +95,10 @@ Strbuilder_t* method(Strbuilder, construct)(const char* string) {
 
 	populate(Strbuilder)(obj, Strbuilder_class);
 
-	sr_(obj->string = allocate(strlen(string) + 1), NULL);
-	strcpy(obj->string, string);
+	if (string != NULL) {
+		sr_(obj->string = allocate(strlen(string) + 1), NULL);
+		strcpy(obj->string, string);
+	}
 
 	return obj;
 }
