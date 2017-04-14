@@ -18,6 +18,12 @@ extern interface(Stack)
 #define Stack_interface void (*push)(void*, void*); void* (*pop)(void*);
 #define Stack(...) NULL; _Pragma("GCC error \"Cannot make instance of interface Stack.\"");
 
+/*typedef Object_t Set_t;
+extern interface(Set)
+#define Set_interface void (*add)(void*, void*); void (*remove)(void*, void*); void* (*contains)(void*, void*);
+#define Set(...) NULL; _Pragma("GCC error \"Cannot make instance of interface Set.\"");
+*/
+
 typedef struct iterator_args {
 	void* list;
 	void* parameter;

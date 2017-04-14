@@ -8,7 +8,8 @@
 #define interface(name) class_t name##_class; __attribute__ ((constructor)) static void add_##name##_interface(void) { name##_class.id = oop_add_class(#name, true, NO_SUPER_CLASS, NO_INTERFACES, false);}
 #define class(name, superclass, interfaces, instanceable) class_t name##_class; __attribute__ ((constructor)) static void add_##name##_class(void) { name##_class.id = oop_add_class(#name, false, superclass, interfaces, instanceable);} typedef struct name
 #define method(class, method) class ##_method_## method
-#define add_method(object, class, method) object->method = class ##_method_## method
+#define add_method(object, class, method) override_method(object, class, class, method)
+#define override_method(object, class, mclass, method) ((class ## _t*) object)->method = mclass ##_method_## method
 
 #define implements(i) i##_interface
 #define extends(type) type super
@@ -19,7 +20,7 @@
 #define instanceof(obj, class) oop_instance_of(obj, class)
 
 #define call(obj, method) (obj)->method((obj))
-#define new
+#define new(class) construct(class)
 #define defclass	struct
 
 #define MAX_CLASSES 1024
@@ -58,10 +59,11 @@ typedef struct meta_object {
 
 class_id_t oop_add_class(const char*, bool, class_t, iflist_t, bool);
 
-#define Object construct(Object)
+//#define Object construct(Object)
 extern class(Object, NO_SUPER_CLASS, NO_INTERFACES, false) {
 	meta_object_t meta_obj;
 	void (*destruct)(defclass Object*);
+	int (*hashCode)(void*);
 } Object_t;
 
 extern interface(Cloneable)
@@ -71,6 +73,10 @@ extern interface(Cloneable)
 extern interface(Compareable)
 #define Compareable_interface int(*compare)(void*)
 #define Compareable(...) NULL; _Pragma("GCC error \"Cannot make instance of interface Compareable.\"");
+
+#define def_hashcode() int(*hashCode)(void*)
+#define add_hashcode(obj) obj->hashCode = DefMethods_method_hashCode
+int method(DefMethods, hashCode)(void*);
 
 bool oop_instance_of_id(void*, class_id_t);
 bool oop_instance_of(void*, class_t);
@@ -84,6 +90,6 @@ class_t oop_get_class_from_obj(Object_t*);
 void oop_check_interface(class_t, Object_t*);
 
 Object_t* method(Object, construct)(void);
-void method(Object, populate)(Object_t* obj, class_t);
+void method(Object, populate)(Object_t*, class_t);
 
 #endif

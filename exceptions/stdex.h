@@ -3,7 +3,7 @@
 
 #include "../oop.h"
 
-#define Exception construct(Exception)
+//#define Exception construct(Exception)
 extern class(Exception, Object_class, NO_INTERFACES, true) {
 	extends(Object_t);	
 
@@ -15,7 +15,7 @@ extern class(Exception, Object_class, NO_INTERFACES, true) {
 void method(Exception, populate)(Exception_t*, class_t);
 Exception_t* method(Exception, construct)(const char*);
 
-#define NullPointerException construct(NullPointerException)
+//#define NullPointerException construct(NullPointerException)
 extern class(NullPointerException, Exception_class, NO_INTERFACES, true) {
 	extends(Exception_t);
 
@@ -25,7 +25,7 @@ extern class(NullPointerException, Exception_class, NO_INTERFACES, true) {
 void method(NullPointerException, populate)(NullPointerException_t*, class_t);
 NullPointerException_t* method(NullPointerException, construct)(void);
 
-#define OutOfMemoryException construct(OutOfMemoryException)
+//#define OutOfMemoryException construct(OutOfMemoryException)
 extern class(OutOfMemoryException, Exception_class, NO_INTERFACES, true) {
 	extends(Exception_t);
 
@@ -35,7 +35,7 @@ extern class(OutOfMemoryException, Exception_class, NO_INTERFACES, true) {
 void method(OutOfMemoryException, populate)(OutOfMemoryException_t*, class_t);
 OutOfMemoryException_t* method(OutOfMemoryException, construct)(void);
 
-#define IndexOutOfBoundsException construct(IndexOutOfBoundsException)
+//#define IndexOutOfBoundsException construct(IndexOutOfBoundsException)
 extern class(IndexOutOfBoundsException, Exception_class, NO_INTERFACES, true) {
 	extends(Exception_t);
 
@@ -45,7 +45,7 @@ extern class(IndexOutOfBoundsException, Exception_class, NO_INTERFACES, true) {
 void method(IndexOutOfBoundsException, populate)(IndexOutOfBoundsException_t*, class_t);
 IndexOutOfBoundsException_t* method(IndexOutOfBoundsException, construct)(size_t, size_t);
 
-#define IllegalArgumentException construct(IllegalArgumentException)
+//#define IllegalArgumentException construct(IllegalArgumentException)
 extern class(IllegalArgumentException, Exception_class, NO_INTERFACES, true) {
 	extends(Exception_t);
 
@@ -55,7 +55,7 @@ extern class(IllegalArgumentException, Exception_class, NO_INTERFACES, true) {
 void method(IllegalArgumentException, populate)(IllegalArgumentException_t*, class_t);
 IllegalArgumentException_t* method(IllegalArgumentException, construct)(const char*);
 
-#define ClassNotInstanceableException construct(ClassNotInstanceableException)
+//#define ClassNotInstanceableException construct(ClassNotInstanceableException)
 extern class(ClassNotInstanceableException, Exception_class, NO_INTERFACES, true) {
 	extends(Exception_t);
 

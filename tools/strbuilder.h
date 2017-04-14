@@ -4,9 +4,10 @@
 #include <stdlib.h>
 #include "../oop.h"
 
-#define Strbuilder construct(Strbuilder)
+//#define Strbuilder construct(Strbuilder)
 extern class(Strbuilder, Object_class, NO_INTERFACES, true) {
 	extends(Object_t);
+	def_hashcode();
 
 	char* string;
 	char** strings;

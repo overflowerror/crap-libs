@@ -8,13 +8,13 @@
 void allocate_sub(size_t size, void** ptr) { throws(OutOfMemoryException_t);
 	*ptr = malloc(size);
 	if (*ptr == NULL) {
-		throw(new OutOfMemoryException());
+		throw(new (OutOfMemoryException)());
 	}
 }
 
 void* allocate_o(class_t c, size_t size) { throws(OutOfMemoryException_t, ClassNotInstanceableException_t);
 	if (!oop_is_instanceable(c))
-		throwr(new ClassNotInstanceableException(oop_get_class_name(c)), NULL);
+		throwr(new (ClassNotInstanceableException)(oop_get_class_name(c)), NULL);
 	void* ptr;
 	sr_(allocate_sub(size, &ptr), NULL);
 	return ptr;
@@ -29,7 +29,7 @@ void* allocate(size_t size) { throws(OutOfMemoryException_t);
 void reallocate_sub(size_t size, void** ptr, void* old) { throws(OutOfMemoryException_t);
 	*ptr = realloc(old, size);
 	if (*ptr == NULL) {
-		throw(new OutOfMemoryException());
+		throw(new (OutOfMemoryException)());
 	}
 }
 

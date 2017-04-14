@@ -2,6 +2,7 @@
 #include "memory.h"
 #include "try.h"
 #include "exceptions/stdex.h"
+#include "misc.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -98,7 +99,7 @@ void oop_check_interface(class_t c, Object_t* obj) {
 	throws(IllegalArgumentException_t);
 
 	if (!instanceof(obj, c))
-		throw(new IllegalArgumentException("Object is not instance of interface."));
+		throw(new (IllegalArgumentException)("Object is not instance of interface."));
 }
 
 
@@ -120,7 +121,17 @@ Object_t* method(Object, construct)() { throws(OutOfMemoryException_t);
 	return obj;
 }
 
+int method(Object, hashCode)(Object_t* obj) {
+	UNUSED(obj);
+	return 0;
+}
+
 void method(Object, populate)(Object_t* obj, class_t type) {
 	obj->meta_obj.type = type;
 	add_method(obj, Object, destruct);
+}
+
+
+int method(DefMethods, hashCode)(void* obj) {
+	return ((Object_t*) obj)->hashCode(obj);
 }

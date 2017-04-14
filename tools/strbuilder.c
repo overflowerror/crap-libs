@@ -12,7 +12,7 @@ void method(Strbuilder, clear)(Strbuilder_t* this) {
 	throws(NullPointerException_t);
 
 	if (this == NULL)
-		throw(new NullPointerException());
+		throw(new (NullPointerException)());
 
 	for (int i = 0; i < this->nrstrings; i++) {
 		free(this->strings[i]);
@@ -26,7 +26,7 @@ void method(Strbuilder, destruct)(Strbuilder_t* this) {
 	throws(NullPointerException_t);
 
 	if (this == NULL)
-		throw(new NullPointerException());
+		throw(new (NullPointerException)());
 
 	this->clear(this);
 	this->super.destruct((Object_t*) this);
@@ -36,7 +36,7 @@ void method(Strbuilder, add)(Strbuilder_t* this, const char* string) {
 	throws(OutOfMemoryException_t, NullPointerException_t);
 
 	if (this == NULL || string == NULL)
-		throw(new NullPointerException());
+		throw(new (NullPointerException)());
 
 	s_(this->strings = reallocate(this->strings, ++this->nrstrings * sizeof(char*)));
 	s_(this->strings[this->nrstrings - 1] = allocate(strlen(string) + 1));
@@ -47,7 +47,7 @@ size_t method(Strbuilder, length)(Strbuilder_t* this) {
 	throws(NullPointerException_t);
 
 	if (this == NULL)
-		throwr(new NullPointerException(), 0);
+		throwr(new (NullPointerException)(), 0);
 
 	size_t length = 0;
 	if (this->string != NULL)
@@ -62,7 +62,7 @@ void method(Strbuilder, build)(Strbuilder_t* this) {
 	throws(OutOfMemoryException_t, NullPointerException_t);
 
 	if (this == NULL)
-		throw(new NullPointerException());
+		throw(new (NullPointerException)());
 
 	size_t length = this->length(this);
 	bool empty = this->string == NULL;
@@ -80,13 +80,14 @@ const char* method(Strbuilder, get)(Strbuilder_t* this) {
 	throws(NullPointerException_t);
 
 	if (this == NULL)
-		throwr(new NullPointerException(), NULL);
+		throwr(new (NullPointerException)(), NULL);
 
 	if (this->string == NULL)
 		return "";
 	
 	return this->string;
 }
+
 
 Strbuilder_t* method(Strbuilder, construct)(const char* string) { 
 	throws(OutOfMemoryException_t);
@@ -103,6 +104,18 @@ Strbuilder_t* method(Strbuilder, construct)(const char* string) {
 	return obj;
 }
 
+int method(Strbuilder, hashCode)(void* obj) {
+	throws(NullPointerException_t);
+	if (obj == NULL)
+		throwr(new (NullPointerException)(), 0);
+
+	Strbuilder_t* builder = (Strbuilder_t*) obj;
+	
+
+	UNUSED(builder);
+	
+	return 0;
+}
 
 void method(Strbuilder, populate)(Strbuilder_t* obj, class_t c) {
 	populate(Object)((Object_t*) obj, c);
@@ -110,6 +123,9 @@ void method(Strbuilder, populate)(Strbuilder_t* obj, class_t c) {
 	obj->string = NULL;
 	obj->strings = NULL;
 	obj->nrstrings = 0;
+
+	add_hashcode(obj);
+	override_method(obj, Object, Strbuilder, hashCode);
 
 	add_method(obj, Strbuilder, destruct);
 	add_method(obj, Strbuilder, add);
