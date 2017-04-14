@@ -8,3 +8,4 @@
 
 #include "lists/lists.h"
 #include "lists/arraylist.h"
+#include "lists/linkedlist.h"

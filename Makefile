@@ -17,13 +17,13 @@ all: example libcrap.so
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-example: example.o memory.o try.o oop.o exceptions/stdex.o tools/strbuilder.o lists/lists.o lists/arraylist.o
+example: example.o memory.o try.o oop.o exceptions/stdex.o tools/strbuilder.o lists/lists.o lists/arraylist.o lists/linkedlist.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
-libcrap.so: memory.o try.o oop.o exceptions/stdex.o tools/strbuilder.o lists/lists.o lists/arraylist.o
+libcrap.so: memory.o try.o oop.o exceptions/stdex.o tools/strbuilder.o lists/lists.o lists/arraylist.o lists/linkedlist.o
 	$(CC) $(LIBFLAGS) -o $@ $^
 
-example.o: example.c try.h
+example.o: example.c try.h crap.h
 memory.o: memory.c memory.h oop.h exceptions/stdex.h
 try.o: try.c try.h oop.h exceptions/stdex.h
 oop.o: oop.h misc.h
@@ -34,6 +34,7 @@ tools/strbuilder.o: tools/strbuilder.c tools/strbuilder.h exceptions/stdex.h
 
 lists/lists.o: lists/lists.c lists/lists.h oop.h
 lists/arraylist.o: lists/arraylist.c lists/arraylist.h oop.h
+lists/linkedlist.o: lists/linkedlist.c lists/linkedlist.h oop.h
 
 clean:
 	rm -f *.o exceptions/*.o tools/*.o lists/*.o example
